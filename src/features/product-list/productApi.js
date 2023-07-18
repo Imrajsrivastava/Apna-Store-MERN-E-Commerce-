@@ -11,15 +11,25 @@ export function fetchAllProduct() {
 }
 
 
-export function fetchProductFilter(filter) {
+export function fetchProductFilter(filter,sort) {
   console.log(filter)
-//filter = {catagory:"smartphone"}
+//filter = {catagory:["smartphone","laptop"]}
 //on server we will do for multiple filter ...at one time 
 let quaryString = '';
 for(let key in filter){
 
-  quaryString+=`${key}=${filter[key]}&`
+const categoryValues = filter[key];
+    if(categoryValues.length>0){
+      const lastCategoryValue = categoryValues[categoryValues.length-1]
+      quaryString += `${key}=${lastCategoryValue}&`
+    }
 
+}
+
+// sort 
+
+for(let key in sort){
+  quaryString+=`${key}=${sort[key]}&`
 }
 
 
