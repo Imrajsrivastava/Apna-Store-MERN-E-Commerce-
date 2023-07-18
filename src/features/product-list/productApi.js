@@ -11,10 +11,12 @@ export function fetchAllProduct() {
 }
 
 
-export function fetchProductFilter(filter,sort) {
+export function fetchProductFilter(filter,sort,pagination) {
   console.log(filter)
 //filter = {catagory:["smartphone","laptop"]}
 //on server we will do for multiple filter ...at one time 
+// pagination = {page:1,limit:10}
+
 let quaryString = '';
 for(let key in filter){
 
@@ -30,6 +32,10 @@ const categoryValues = filter[key];
 
 for(let key in sort){
   quaryString+=`${key}=${sort[key]}&`
+}
+
+for(let key in pagination){
+  quaryString+=`${key}=${pagination[key]}&`
 }
 
 

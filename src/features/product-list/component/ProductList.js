@@ -83,6 +83,10 @@ export default function ProductList() {
   const dispatch = useDispatch();
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
+
+  let limit =10;
+
 
   
 
@@ -122,12 +126,23 @@ console.log(sort)
   };
 
 
+
+  const handlepage = ( page) => {
+    
+    setPage(page);
+
+   
+
+  };
+
+
   //useeffect here ...
 
   useEffect(() => {
     // dispatch(fetchAllProductAsync());
-    dispatch(fetchProductFilterAsync({filter, sort}));
-  }, [dispatch,filter,sort])
+    let pagination = {_page:page,_limit:limit}
+    dispatch(fetchProductFilterAsync({filter, sort,pagination}));
+  }, [dispatch,filter,sort,page])
   
 
 
@@ -238,7 +253,7 @@ console.log(sort)
               {/* //product list end here  */}
 
               <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                <Pagination />
+                <Pagination handlepage={handlepage} page={page} setPage={setPage} limit={limit}/>
               </div>
             </main>
           </div>
@@ -424,7 +439,7 @@ function DesktopFilter({ handleFilter }) {
   );
 }
 
-function Pagination() {
+function Pagination({handlepage,page,setPage,limit,totalitems=55}) {
   return (
     <>
       <div className="flex flex-1 justify-between sm:hidden">
@@ -444,9 +459,9 @@ function Pagination() {
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
-            <span className="font-medium">97</span> results
+            Showing <span className="font-medium">{(page-1)*limit+1}</span> to{" "}
+            <span className="font-medium">{page*limit}</span> of{" "}
+            <span className="font-medium">{totalitems}</span> results
           </p>
         </div>
         <div>
@@ -461,20 +476,23 @@ function Pagination() {
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </a>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-            <a
-              href="#"
+           
+
+           {
+            Array.from({length:Math.ceil(totalitems/limit)}).map((el,index)=>{
+
+              return<div
+             onClick={()=>handlepage(index+1)}
               aria-current="page"
               className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              1
-            </a>
-            <a
-              href="#"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-            >
-              2
-            </a>
+              {index+1}
+            </div>
+
+            })
+           }
+           
+           
 
             <a
               href="#"
