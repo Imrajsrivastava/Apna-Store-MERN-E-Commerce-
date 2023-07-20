@@ -4,6 +4,7 @@ import {
   fetchAllProductAsync,
   fetchProductFilterAsync,
   selectAllProduct,
+  selecttotalitems,
 } from "../productSlice";
 
 //telwind code here...
@@ -80,6 +81,8 @@ function classNames(...classes) {
 export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector(selectAllProduct);
+  const totalitems = useSelector(selecttotalitems);
+  console.log(products)
   const dispatch = useDispatch();
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
@@ -143,6 +146,11 @@ console.log(sort)
     let pagination = {_page:page,_limit:limit}
     dispatch(fetchProductFilterAsync({filter, sort,pagination}));
   }, [dispatch,filter,sort,page])
+
+  useEffect(()=>{
+    setPage(1)
+  },[totalitems,sort])
+
   
 
 
@@ -253,7 +261,7 @@ console.log(sort)
               {/* //product list end here  */}
 
               <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-                <Pagination handlepage={handlepage} page={page} setPage={setPage} limit={limit}/>
+                <Pagination handlepage={handlepage} page={page} setPage={setPage} limit={limit} totalitems={totalitems}/>
               </div>
             </main>
           </div>
@@ -439,7 +447,7 @@ function DesktopFilter({ handleFilter }) {
   );
 }
 
-function Pagination({handlepage,page,setPage,limit,totalitems=55}) {
+function Pagination({handlepage,page,setPage,limit=10,totalitems}) {
   return (
     <>
       <div className="flex flex-1 justify-between sm:hidden">
@@ -459,8 +467,15 @@ function Pagination({handlepage,page,setPage,limit,totalitems=55}) {
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{(page-1)*limit+1}</span> to{" "}
-            <span className="font-medium">{page*limit}</span> of{" "}
+            Showing  <span className="font-medium">
+              {(page - 1) * limit + 1}
+            </span>{' '}
+            to{' '}
+            <span className="font-medium">
+              {page * limit > totalitems
+                ? totalitems
+                : page * limit}
+            </span>{' '} of{" "}
             <span className="font-medium">{totalitems}</span> results
           </p>
         </div>
@@ -481,12 +496,16 @@ function Pagination({handlepage,page,setPage,limit,totalitems=55}) {
            {
             Array.from({length:Math.ceil(totalitems/limit)}).map((el,index)=>{
 
-              return<div
-             onClick={()=>handlepage(index+1)}
+              return  <div
+              onClick={(e) => handlepage(index + 1)}
               aria-current="page"
-              className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className={`relative cursor-pointer z-10 inline-flex items-center ${
+                index + 1 === page
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-gray-400'
+              } px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
             >
-              {index+1}
+              {index + 1}
             </div>
 
             })

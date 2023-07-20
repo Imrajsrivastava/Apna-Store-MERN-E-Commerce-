@@ -34,6 +34,8 @@ for(let key in sort){
   quaryString+=`${key}=${sort[key]}&`
 }
 
+
+console.log(pagination)
 for(let key in pagination){
   quaryString+=`${key}=${pagination[key]}&`
 }
@@ -44,8 +46,9 @@ for(let key in pagination){
 
   const response = await fetch(`http://localhost:8080/products?`+quaryString);
 
-  const data = response.json();
-  resolve({data});
+  const data =await response.json();
+  const totalitems = await response.headers.get('X-Total-Count');
+  resolve({data:{products:data,totalitems:+totalitems}});
   }
   )
 }
