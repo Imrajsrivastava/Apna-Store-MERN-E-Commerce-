@@ -7,10 +7,10 @@ const product = {
   name: 'Basic Tee 6-Pack',
   price: '$192',
   href: '#',
-  breadcrumbs: [
-    { id: 1, name: 'Men', href: '#' },
-    { id: 2, name: 'Clothing', href: '#' },
-  ],
+  // breadcrumbs: [
+  //   { id: 1, name: 'Men', href: '#' },
+  //   { id: 2, name: 'Clothing', href: '#' },
+  // ],
   images: [
     {
       src: 'https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg',
@@ -70,7 +70,7 @@ export default function ProductDetail() {
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            {product.breadcrumbs.map((breadcrumb) => (
+            {product.breadcrumbs && product.breadcrumbs.map((breadcrumb) => (
               <li key={breadcrumb.id}>
                 <div className="flex items-center">
                   <a href={breadcrumb.href} className="mr-2 text-sm font-medium text-gray-900">
@@ -173,7 +173,7 @@ export default function ProductDetail() {
                 <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
                   <div className="flex items-center space-x-3">
-                    {product.colors.map((color) => (
+                    {product.colors && product.colors.map((color) => (
                       <RadioGroup.Option
                         key={color.name}
                         value={color}
@@ -214,7 +214,7 @@ export default function ProductDetail() {
                 <RadioGroup value={selectedSize} onChange={setSelectedSize} className="mt-4">
                   <RadioGroup.Label className="sr-only">Choose a size</RadioGroup.Label>
                   <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                    {product.sizes.map((size) => (
+                    {product.sizes && product.sizes.map((size) => (
                       <RadioGroup.Option
                         key={size.name}
                         value={size}
@@ -288,7 +288,7 @@ export default function ProductDetail() {
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
+                  {product.highlights && product.highlights.map((highlight) => (
                     <li key={highlight} className="text-gray-400">
                       <span className="text-gray-600">{highlight}</span>
                     </li>
