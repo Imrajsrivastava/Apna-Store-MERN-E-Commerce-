@@ -2354,54 +2354,14 @@
   ],
   "users": [
     {
-      "email": "test@gmail.com",
-      "password": "Qwerty123",
-      "role": "user",
-      "addresses": [
-        {
-          "name": "Abhishek Rathore",
-          "email": "test@gmail.com",
-          "phone": "1234567788",
-          "street": "11th Main",
-          "city": "Banaglore",
-          "state": "Karnataka",
-          "pinCode": "560034"
-        },
-        {
-          "name": "Jack Morris",
-          "email": "jack@gmail.com",
-          "city": "Delhi",
-          "state": "Delhi",
-          "pinCode": "110006",
-          "phone": "12312331232",
-          "street": "12th cross"
-        }
-      ],
+      "email": "rajsri4485@gmail.com",
+      "password": "Satyam@1234",
       "id": 1
     },
     {
-      "email": "demo@gmail.com",
-      "password": "Qwerty123",
-      "role": "user",
-      "addresses": [
-        {
-          "name": "Demo user",
-          "email": "demo@gmail.com",
-          "phone": "1234567788",
-          "street": "11th Main",
-          "city": "Mumbai",
-          "state": "Maharastra",
-          "pinCode": "220001"
-        }
-      ],
+      "email": "rajsri4485@gmail.com",
+      "password": "Satyam@12345",
       "id": 2
-    },
-    {
-      "email": "admin@gmail.com",
-      "password": "Qwerty123",
-      "addresses": [],
-      "role": "admin",
-      "id": 3
     }
   ],
   "cart": [

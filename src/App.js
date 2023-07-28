@@ -3,6 +3,7 @@ import React from "react";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import Protected from "./features/auth/components/Protected";
 
 // import * as React from "react";
 import { createRoot } from "react-dom/client";
@@ -34,17 +35,17 @@ const router = createBrowserRouter([
 
   {
     path: "/cart",
-    element: <CartPage></CartPage>,
+    element: <Protected>{<CartPage/>}</Protected>,
   },
 
   {
     path: "/checkout",
-    element: <Checkout></Checkout>,
+    element: <Protected>{<Checkout/>}</Protected>,
   },
 
   {
     path: "/product-detail/:id",
-    element: <ProductDetailPage></ProductDetailPage>,
+    element: <Protected>{<ProductDetailPage/>}</Protected>,
   },
 ]);
 

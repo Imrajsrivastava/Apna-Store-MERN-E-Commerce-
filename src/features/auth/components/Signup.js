@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { increment, incrementAsync } from "../authSlice";
+import { selectLoggedInUser,createUserAsync} from "../authSlice";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
   const dispatch = useDispatch();
+  const user = useSelector(selectLoggedInUser)
 
   const {
     register,
@@ -18,6 +19,7 @@ export default function Signup() {
 
   return (
     <div>
+      {user?.email}
       <div>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -33,8 +35,10 @@ export default function Signup() {
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
+            noValidate
               className="space-y-6"
               onSubmit={handleSubmit((data) => {
+                dispatch(createUserAsync({email:data.email,password:data.password}))
                 console.log(data);
               })}
             >
@@ -48,12 +52,16 @@ export default function Signup() {
                 <div className="mt-2">
                   <input
                     id="email"
-                    {...register("email" , { required: true })}
+                    {...register("email" , { required: "email is required!", pattern:{
+                      value:/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                      message:"email is not valid!"
+                    }  })}
                     type="email"
-                    autoComplete="email"
+                  
                   
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                 </div>
               </div>
 
@@ -77,12 +85,18 @@ export default function Signup() {
                 <div className="mt-2">
                   <input
                     id="password"
-                    {...register("password", { required: true })}
+                    {...register("password", { required: "Password is required",pattern:{
+                      value:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
+                      message:`at least 8 characters\n
+                      - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number\n
+                      - Can contain special characters`
+                    }  })}
                     type="password"
-                    autoComplete="current-password"
+                   
                     
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.password && <p className="text-red-500">{errors.password.message}</p>}
                 </div>
 
                 <label
@@ -94,12 +108,15 @@ export default function Signup() {
 
                 <div className="mt-2">
                   <input
-                    id="confirm-password"
-                    {...register("confirm-password" , { required: true })}
+                    id="confirmpassword"
+                    {...register("confirmpassword" , { required: "ConfirmPassword is required",
+                    validate: (value, formValues) => value === formValues.password || "password not matching"
+                   })}
                     type="password"
             
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.confirmpassword && <p className="text-red-500">{errors.confirmpassword.message}</p>}
                 </div>
               </div>
 
